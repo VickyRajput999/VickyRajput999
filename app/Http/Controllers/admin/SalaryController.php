@@ -7,7 +7,6 @@ use App\Models\Attendace;
 use App\Models\Employee;
 use App\Models\Salary;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Carbon;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,15 +17,6 @@ class SalaryController extends Controller
         $employees = Employee::all(['employeeId', 'firstName', 'salary']);
         $startDate = Carbon::now()->subMonth()->startOfMonth()->startOfDay();
         $endDate = Carbon::now()->subMonth()->endOfMonth();
-
-        // return [
-        //     'start_date' => $startDate->toDateString(),
-
-        //     'end_date' => $endDate->toDateString()
-        // ];
-
-        // $startDate = Carbon::now()->firstOfMonth()->startOfDay();
-        // $endDate = Carbon::now()->endOfMonth()->endOfDay();
 
         $attendanceCounts = [];
 
@@ -65,42 +55,64 @@ class SalaryController extends Controller
         return view('salary.salaryCalculation', ['attendanceCounts' => $attendanceCounts]);
     }
 
-    public function paidSalary(Request $request){
-
+    public function paidSalary(Request $request)
+    {
         $validator = Validator::make($request->all(),[
-            'date' => 'required',
-            'employeeId' => 'required',
-            'firstName' => 'required',
+            'months' => 'required',
+            'year' => 'required',
             'totalOfcDays' => 'required',
             'present' => 'required',
             'absent' => 'required',
             'leave' => 'required',
             'salary' => 'required',
             'totalsalary' => 'required',
+            'bouns' => 'required',
+            'deductions' => 'required',
+            'status' => 'required',
+            'paidDate' => 'required'
         ]);
 
-        if($validator->passes()){
 
+        if($validator->passes())
+        {
+            $paidSalary = Salary::where('empid',$request->employeeID)
+                ->where('month',$request->months)
+                ->first();
 
-            $salary = new Salary();
+            if($paidSalary){
+                $employeeSalary = new Salary;
+                $employeeSalary->empid  = $request->employeeId;
+                $employeeSalary->name  = $request->firstName;
+                $employeeSalary->month  = $request->months;
+                $employeeSalary->year   = $request->year;
+                $employeeSalary->totalDays = $request->totalOfcDays;
+                $employeeSalary->presentDays = $request->present;
+                $employeeSalary->absentDays = $request->absent;
+                $employeeSalary->leaveDays = $request->leave;
+                $employeeSalary->baisc = $request->salary;
+                $employeeSalary->bonus = $request->bonus;
+                $employeeSalary->deductions = $request->deductions;
+                $employeeSalary->totalSalary = $request->totalsalary;
+                $employeeSalary->status = $request->status;
+                $employeeSalary->paidDate = $request->paidDate;
+                $employeeSalary->save();
 
-            $salary->empid = $request->employeeId;
-            $salary->month = $request->months;
-            $salary->year = $request->year;
-            $salary->totalDays = $request->totalOfcDays;
-            $salary->presentDays = $request->present;
-            $salary->absentDays = $request->absent;
-            $salary->leaveDays = $request->leave;
-            $salary->basic = $request->salary;
-            $salary->bonus = $request->bouns;
-            $salary->deductions = $request->deductions;
-            $salary->totalSalary = $request->totalsalary;
-            $salary->status = $request->selectstatus;
-            $salary->paidDate = $request->paidDate;
-            $salary->save();
-
-            // 3016-8871-5756
-            // chnpn9707p
+                return response()->json([
+                    'status'=>'success',
+                    'message'=>'Salary Paid Successfully'
+                ]);
+            }else{
+                return response()->json([
+                    'status'=>false,
+                    'message'=>'Already Paid Salary'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
         }
+
     }
 }

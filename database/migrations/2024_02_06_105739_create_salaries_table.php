@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
             $table->string('empid')->constrained('employees');
+            $table->string('name')->nullable();
             $table->string('month')->nullable();
             $table->string('year')->nullable();
             $table->integer('totalDays')->nullable();

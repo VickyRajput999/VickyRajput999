@@ -98,7 +98,9 @@
                                         @foreach ($attendanceCounts as $employeeId => $attend)
                                             <tr>
                                                 <td><span id="empid {{ $employeeId }}"></span>{{ $employeeId }}</td>
-                                                <td><span id="empname {{ $attend['firstName'] }}">{{ $attend['firstName'] }}</span></td>
+                                                <td><span
+                                                        id="empname {{ $attend['firstName'] }}">{{ $attend['firstName'] }}</span>
+                                                </td>
                                                 <td><span id="empdays ">{{ $attend['days'] }}</span></td>
                                                 <td><span id="emppresent">{{ $attend['presentCount'] }}</span></td>
                                                 <td><span id="empabsent ">{{ $attend['absentCount'] }}</span></td>
@@ -112,12 +114,12 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <button  onclick="editSetup(this)" class="btn btn-primary salaryPaid" id="salaryPaid"
-                                                        data-id="{{ $employeeId }}" >Paid</button>
+                                                    <button onclick="editSetup(this)" class="btn btn-primary salaryPaid"
+                                                        id="salaryPaid" data-id="{{ $employeeId }}">Paid</button>
                                                 </td>
 
                                             </tr>
-                                         @endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -139,11 +141,6 @@
                         <div class="modal-body">
                             <form class="pt-3" id="Paid-Salary" name="Paid-Salary">
                                 <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label for="date">Date</label>
-                                        <input class="form-control" type="date" id="date" name="date"
-                                            value="{{ now()->format('Y-m-d') }}">
-                                    </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="employeeId">Emp.ID</label>
                                         <input class="form-control" type="text" id="employeeId" name="employeeId">
@@ -194,7 +191,7 @@
                                         <input class="form-control" type="text" id="deductions" name="deductions">
                                     </div>
                                     <div class="col-md-4 mb-3">
-                                        <label for="deductions">Deductions</label>
+                                        <label for="Statussalary">Status</label>
                                         <select class="p-2" name="status" id="status">
                                             <option value="selectstatus">Select Status</option>
                                             <option value="paid">Paid</option>
@@ -206,7 +203,7 @@
                                         <input class="form-control" type="date" id="paidDate" name="paidDate">
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary" id="saveChanges">Paid</button>
+                                        <button type="submit" class="btn btn-primary">Paid</button>
                                     </div>
                                 </div>
                             </form>
@@ -222,7 +219,7 @@
 
 @section('customJs')
     <script>
-        function editSetup(ele){
+        function editSetup(ele) {
             var id = $(ele).closest('tr').find('td').eq(0).text();
             var name = $(ele).closest('tr').find('td').eq(1).text();
             var empdays = $(ele).closest('tr').find('td').eq(2).text();
@@ -235,34 +232,34 @@
 
             $("#Salary").modal('show');
 
-            $("#Salary").find('input[name="employeeId"]').val(id);
-            $("#Salary").find('input[name="firstName"]').val(name);
-            $("#Salary").find('input[name="totalOfcDays"]').val(empdays);
-            $("#Salary").find('input[name="present"]').val(emppresent);
-            $("#Salary").find('input[name="absent"]').val(empabsent);
-            $("#Salary").find('input[name="leave"]').val(empleave);
-            $("#Salary").find('input[name="salary"]').val(empsalary);
-            $("#Salary").find('input[name="totalsalary"]').val(emptotalsalary);
+            $("#Paid-Salary").find('input[name="employeeId"]').val(id);
+            $("#Paid-Salary").find('input[name="firstName"]').val(name);
+            $("#Paid-Salary").find('input[name="totalOfcDays"]').val(empdays);
+            $("#Paid-Salary").find('input[name="present"]').val(emppresent);
+            $("#Paid-Salary").find('input[name="absent"]').val(empabsent);
+            $("#Paid-Salary").find('input[name="leave"]').val(empleave);
+            $("#Paid-Salary").find('input[name="salary"]').val(empsalary);
+            $("#Paid-Salary").find('input[name="totalsalary"]').val(emptotalsalary);
         }
 
-        $(document).ready(function(){
-            $(document).on("submit","#Paid-Salary",function(e){
+        $(document).ready(function() {
+            $(document).on("submit", "#Paid-Salary", function(e) {
                 e.preventDefault();
                 var formData = $(this).serializeArray();
-                $("button[type=submit]").prop('disabled',true);
+                $("button[type=submit]").prop('disabled', true);
 
                 $.ajax({
-                    url:"{{ route('salary.paid') }}",
-                    type:'post',
-                    data:formData,
-                    dataType:'json',
+                    url: "{{ route('salary.paid') }}",
+                    type: 'post',
+                    data: formData,
+                    dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    success:function(res){
-                        $("button[type=submit]").prop('disabled',true);
+                    success: function(res) {
+                        $("button[type=submit]").prop('disabled', true);
 
-                        if(res.status == true){
+                        if (res.status == true) {
 
                         }
                     }
