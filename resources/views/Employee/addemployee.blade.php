@@ -93,19 +93,6 @@
                                         <textarea class="form-control" name="Address" id="Address" rows="1" required></textarea>
                                     </div>
                                     <div class="col-md-3 pt-4 emp_inputs">
-                                        <label for="State">State</label>
-                                        <select name="State" id="State" class="form-control" required>
-                                            <option value="state">Select State</option>
-                                            {{-- <option value="">2</option> --}}
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3 pt-4 emp_inputs">
-                                        <label for="City">City</label>
-                                        <select name="City" id="City" class="form-control" required>
-                                            <option value="city">Select City</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3 pt-4 emp_inputs">
                                         <label for="Country">Country</label>
                                         <select name="Country" id="Country" class="form-control" required>
                                             @if (!empty($countries))
@@ -114,6 +101,18 @@
                                                     <option value="{{ $country->id }}">{{ $country->name }}</option>
                                                 @endforeach
                                             @endif
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 pt-4 emp_inputs">
+                                        <label for="State">State</label>
+                                        <select name="State" id="State" class="form-control" required>
+                                            <option value="state">Select State</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 pt-4 emp_inputs">
+                                        <label for="City">City</label>
+                                        <select name="City" id="City" class="form-control" required>
+                                            <option value="city">Select City</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 pt-4 emp_inputs">
@@ -130,7 +129,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
                                 <hr>
                                 <h5 class="pb-2">Bank Details</h5>
                                 <div class="row pb-3">
@@ -265,8 +264,6 @@
                             $("button[type=submit]").prop('disabled', false);
 
                             if (res.status == true) {
-
-                                // $('.table').load(location.href+' .table');
                                 window.location.href = "{{ route('emp.index') }}";
                             }
                         },

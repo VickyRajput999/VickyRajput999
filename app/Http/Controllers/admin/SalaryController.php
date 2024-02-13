@@ -103,14 +103,14 @@ class SalaryController extends Controller
                 ]);
             }else{
                 return response()->json([
-                    'status'=>false,
+                    'status'=> 'failed',
                     'message'=>'Already Paid Salary'
                 ]);
             }
         }else{
             return response()->json([
                 'status' => false,
-                'errors' => $validator->errors()
+                'error' => $validator->errors()
             ]);
         }
 

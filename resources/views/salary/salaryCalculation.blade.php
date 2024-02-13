@@ -147,48 +147,58 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="firstName">Name</label>
-                                        <input class="form-control" type="text" id="firstName" name="firstName">
+                                        <input class="form-control" type="text" id="firstName" name="firstName" placeholder="Name">
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="months">Month</label>
-                                        <input class="form-control" type="text" id="months" name="months">
+                                        <input class="form-control @error('months') is-invalid @enderror" type="text" id="months" name="months" placeholder="Months">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="year">F-Year</label>
-                                        <input class="form-control" type="text" id="year" name="year">
+                                        <input class="form-control" type="text" id="year" name="year" placeholder="Year">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="totalOfcDays">Office</label>
                                         <input class="form-control" type="text" id="totalOfcDays"
-                                            name="totalOfcDays">
+                                            name="totalOfcDays" placeholder="Total Days">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="present">Present</label>
-                                        <input class="form-control" type="text" id="present" name="present">
+                                        <input class="form-control" type="text" id="present" name="present" placeholder="Total Present">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="absent">Absent</label>
-                                        <input class="form-control" type="text" id="absent" name="absent">
+                                        <input class="form-control" type="text" id="absent" name="absent" placeholder="Total Absent">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="leave">Leave</label>
-                                        <input class="form-control" type="text" id="leave" name="leave">
+                                        <input class="form-control" type="text" id="leave" name="leave" placeholder="Total Leave">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="salary">Salary</label>
-                                        <input class="form-control" type="text" id="salary" name="salary">
+                                        <input class="form-control" type="text" id="salary" name="salary" placeholder="Salary">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="totalsalary">totalsalary</label>
-                                        <input class="form-control" type="text" id="totalsalary" name="totalsalary">
+                                        <input class="form-control" type="text" id="totalsalary" name="totalsalary" placeholder="Total Salary">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="bouns">Bouns</label>
-                                        <input class="form-control" type="text" id="bouns" name="bouns">
+                                        <input class="form-control" type="text" id="bouns" name="bouns" placeholder="Bonus">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="deductions">Deductions</label>
-                                        <input class="form-control" type="text" id="deductions" name="deductions">
+                                        <input class="form-control" type="text" id="deductions" name="deductions" placeholder="Deductions">
+                                        <p></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="Statussalary">Status</label>
@@ -200,7 +210,8 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="paidDate">Paid Date</label>
-                                        <input class="form-control" type="date" id="paidDate" name="paidDate">
+                                        <input class="form-control" type="date" id="paidDate" name="paidDate" placeholder="Paid Salary Date">
+                                        <p></p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Paid</button>
@@ -259,10 +270,17 @@
                     success: function(res) {
                         $("button[type=submit]").prop('disabled', true);
 
-                        if (res.status == true) {
-
+                        if (res.status == 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Salary Paid',
+                            });
                         }
+                    },error: function(xhr, status, error) {
+                        console.log("Something Went Wrong");
                     }
+
                 });
             });
         });
